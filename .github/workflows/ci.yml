@@ -42,8 +42,9 @@ jobs:
 
       - name: Apply database schema
         run: |
-          /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -Q "CREATE DATABASE MinhaDB"
-          /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -d MinhaDB -i ./scripts/schema.sql
+         docker exec sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -Q "CREATE DATABASE MinhaDB"
+         docker exec sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -d MinhaDB -i ./scripts/schema.sql
+
 
       - name: Run tests
         env:
