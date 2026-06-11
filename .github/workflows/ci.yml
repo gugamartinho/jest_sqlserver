@@ -22,8 +22,8 @@ jobs:
         options: >-
           --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -Q 'SELECT 1'"
           --health-interval 10s
-          --health-timeout 5s
-          --health-retries 10
+          --health-timeout 10s
+          --health-retries 20
 
     steps:
       - name: Checkout
@@ -38,7 +38,7 @@ jobs:
         run: npm install
 
       - name: Wait for SQL Server
-        run: sleep 20
+        run: sleep 5
 
       - name: Apply database schema
         run: |
