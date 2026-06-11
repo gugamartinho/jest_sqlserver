@@ -1,0 +1,53 @@
+name: SQL Server Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      sqlserver:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          ACCEPT_EULA: "Y"
+          SA_PASSWORD: "Password123!"
+        ports:
+          - 1433:1433
+        options: >-
+          --health-cmd "/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -Q 'SELECT 1'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Wait for SQL Server
+        run: sleep 20
+
+      - name: Apply database schema
+        run: |
+          /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -Q "CREATE DATABASE MinhaDB"
+          /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -d MinhaDB -i ./scripts/schema.sql
+
+      - name: Run tests
+        env:
+          DB_USER: sa
+          DB_PASSWORD: Password123!
+          DB_SERVER: localhost
+          DB_DATABASE: MinhaDB
+        run: npm test

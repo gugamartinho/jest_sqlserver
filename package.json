@@ -1,0 +1,29 @@
+{
+  "name": "sqlserver-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest --runInBand"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "mssql": "^12.5.5"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.3",
+    "@types/mssql": "^12.3.0",
+    "@types/node": "^20.14.9",
+    "jest": "^29.6.4",
+    "ts-jest": "^29.4.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
