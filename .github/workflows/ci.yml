@@ -2,10 +2,9 @@ name: SQL Server Tests
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
-  workflow_dispatch:
+    branches: [ "main" ]
 
 jobs:
   test:
@@ -38,13 +37,13 @@ jobs:
         run: npm install
 
       - name: Wait for SQL Server
-        run: sleep 5
+        run: sleep 25
 
       - name: Apply database schema
         run: |
-         docker exec sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -Q "CREATE DATABASE MinhaDB"
-         docker exec sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -d MinhaDB -i ./scripts/schema.sql
-
+          CONTAINER_ID=$(docker ps -qf "ancestor=mcr.microsoft.com/mssql/server:2017-latest")
+          docker exec sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -Q "CREATE DATABASE MinhaDB"
+          docker exec sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Password123! -d MinhaDB -i ./scripts/schema.sql
 
       - name: Run tests
         env:
