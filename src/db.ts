@@ -9,6 +9,7 @@ const config: sql.config = {
   server: process.env.DB_SERVER!,
   database: process.env.DB_DATABASE!,
   options: {
+    encrypt: false,
     trustServerCertificate: true,
   },
 };

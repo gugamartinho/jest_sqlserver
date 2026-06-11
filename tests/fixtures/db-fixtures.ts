@@ -3,6 +3,8 @@ import sql from "mssql";
 
 export async function resetDatabase() {
   const db = await getConnection();
+  await db.request().query("USE MinhaDB"); // Selecionar o banco de dados correto
+  console.log("Resetting database..."); // Log para depuração
 
   // Limpar tabelas (ordem importa)
   await db.request().query("DELETE FROM OrderItems");
